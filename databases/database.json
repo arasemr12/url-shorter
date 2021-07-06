@@ -8,5 +8,30 @@
         "url": "https://github.com/Emrah-Aras/link-kisalt",
         "id": "deneme2",
         "ip": "::1"
+    },
+    "deneme3": {
+        "url": "https://discord.js.org/#/",
+        "id": "deneme3",
+        "ip": "::1"
+    },
+    "deneme6": {
+        "url": "https://www.w3schools.com/css/",
+        "id": "deneme6",
+        "ip": "::1"
+    },
+    "fsdfsdf": {
+        "url": "https://emraharas.xyz/",
+        "id": "fsdfsdf",
+        "ip": "::1"
+    },
+    "ka": {
+        "url": "https://emraharas.xyz/",
+        "id": "ka",
+        "ip": "::1"
+    },
+    "pa": {
+        "url": "https://emraharas.xyz/",
+        "id": "pa",
+        "ip": "::1"
     }
 }

@@ -1,0 +1,7 @@
+* {
+  list-style: none;
+}
+
+.context-menu li a {
+  border: 1px solid black;
+}
