@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const { JsonDatabase } = require("wio.db");
 const Discord = require("discord.js");
 const client = new Discord.Client();
+require('dotenv').config();
 
 const db = new JsonDatabase({
   databasePath: "./databases/database.json"
@@ -33,11 +34,11 @@ app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "FEYZ - Home" });
+  res.render("index", { title: "FEYZ - Home", req });
 });
 
 app.get("/api", (req, res) => {
-  res.render("api", { title: "FEYZ - Api" });
+  res.render("api", { title: "FEYZ - Api", req });
 });
 
 let online_user_count = 0;
@@ -55,7 +56,7 @@ app.post("/", (req, res) => {
   const { url, id } = req.body;
   if (url && id) {
     if (db.has(id)) {
-      res.render("index", { title: "FEYZ - Home", message: "This id is already taken!" });
+      res.render("index", { title: "FEYZ - Home", message: "This id is already taken!", req });
     } else {
       db.set(`${id}`, {
         url: url,
@@ -69,11 +70,43 @@ app.post("/", (req, res) => {
   }
 });
 
+app.post('/api/new',(req,res) => {
+  const {url,id} = req.body;
+  if(url && id){
+    if(db.has(id)){
+      res.json({message:'This id is already taken!'})
+    }else{
+      db.set(`${id}`, {
+        url: url,
+        id: id,
+        ip: req.ip
+      });
+      res.json({message:`Saved! url: ${url} id: ${id}`});
+    }
+  }else{
+    res.json({message:'Require url and id'});
+  }
+});
+
+app.get('/api/:id',(req,res) => {
+  const {id} = req.params;
+  if(id){
+    if(db.has(id)){
+      const veri = db.get(id);
+      res.json({url:veri.url,id:veri.id});
+    }else{
+      res.json({message:'Undefined'});
+    }
+  }else{
+    res.json({message:'Require id'});
+  }
+});
+
 app.get("/:id", (req, res) => {
   const { id } = req.params;
   if (id) {
     if (db.has(id)) {
-      res.render("url", { title: `FEYZ - ${id}`, veri: db.get(id) });
+      res.render("url", { title: `FEYZ - ${id}`, veri: db.get(id), req });
     } else {
       res.redirect("/");
     }
