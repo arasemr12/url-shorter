@@ -1,37 +1,22 @@
 {
-    "deneme": {
-        "url": "https://github.com/Emrah-Aras/link-kisalt",
-        "id": "deneme",
-        "ip": "::1"
+    "ds": {
+        "url": "fd://ds",
+        "id": "ds",
+        "ip": "162.158.251.82"
     },
-    "deneme2": {
-        "url": "https://github.com/Emrah-Aras/link-kisalt",
-        "id": "deneme2",
-        "ip": "::1"
+    "ghfhfg": {
+        "url": "ds://dsds",
+        "id": "ghfhfg",
+        "ip": "162.158.251.82"
     },
-    "deneme3": {
-        "url": "https://discord.js.org/#/",
-        "id": "deneme3",
-        "ip": "::1"
+    "message": {
+        "url": "https://youtube.com",
+        "id": "message",
+        "ip": "162.158.251.82"
     },
-    "deneme6": {
-        "url": "https://www.w3schools.com/css/",
-        "id": "deneme6",
-        "ip": "::1"
-    },
-    "fsdfsdf": {
-        "url": "https://emraharas.xyz/",
-        "id": "fsdfsdf",
-        "ip": "::1"
-    },
-    "ka": {
-        "url": "https://emraharas.xyz/",
-        "id": "ka",
-        "ip": "::1"
-    },
-    "pa": {
-        "url": "https://emraharas.xyz/",
-        "id": "pa",
-        "ip": "::1"
+    "youtube": {
+        "url": "ht:/sd",
+        "id": "youtube",
+        "ip": "162.158.251.82"
     }
 }

@@ -1,7 +1,38 @@
 * {
+  color: #fff;
   list-style: none;
 }
 
-.context-menu li a {
-  border: 1px solid black;
+body {
+  background-color: #212529 !important;
+}
+
+textarea,
+input {
+  background: #6f6f6fc7 !important;
+  color: #f2f2f2 !important;
+  border: none !important;
+}
+
+::placeholder {
+  color: #f2f2f2 !important;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #f2f2f2 !important;
+}
+
+::-ms-input-placeholder {
+  color: #f2f2f2 !important;
+}
+
+footer {
+  background-color: #222222;
+  color: white;
+  padding: 15px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
