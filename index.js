@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const { JsonDatabase } = require("wio.db");
 const Discord = require("discord.js");
 const client = new Discord.Client();
+require('discord-buttons')(client);
 require('dotenv').config();
 
 const db = new JsonDatabase({
@@ -50,6 +51,32 @@ app.get("/", (req, res) => {
 
 app.get("/api", (req, res) => {
   res.render("api", { title: "FEYZ - Api", req });
+});
+
+app.get("/contact", (req, res) => {
+  res.render("contact", { title: "FEYZ - Contact", req });
+});
+
+app.post("/contact", (req, res) => {
+  const {email,message} = req.body;
+  let embed = new Discord.MessageEmbed()
+    .setTitle('Yeni bir iletişim desteği!')
+    .setAuthor(req.ip)
+    .setDescription('Yeni bir iletişim desteği geldi!')
+	  .setColor('RANDOM')
+    .addFields(
+      {name: 'E-Mail', value:email},
+      {name: 'Message', value: message}
+    )
+    const disbut = require("discord-buttons");
+
+    let button = new disbut.MessageButton()
+      .setStyle('url')
+      .setURL('https://feyz.ga/') 
+      .setLabel('Websiteye git!'); 
+    
+  client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(embed,button);
+  res.render("contact", { title: "FEYZ - Contact", req });
 });
 
 app.get("/:id", (req, res) => {

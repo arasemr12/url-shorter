@@ -1,0 +1,8 @@
+<form action="/contact" class="form-group" method="post">
+  <% if(locals.message) { %>
+    <span style="color:red"><%=message%></span><br><br>
+  <% } %>
+  <input type="email" name="email" class="form-control" placeholder="E-Mail." autocomplete="off" required><br><br>
+  <textarea name="message" placeholder="Your message." class="form-control" cols="30" rows="10" required></textarea> <br><br>
+  <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i> Submit.</button>
+</form>

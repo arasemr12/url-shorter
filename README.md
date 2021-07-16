@@ -1,5 +1,4 @@
 # link-kisalt
-
 Basit bir link kısaltma servisi dahada geliştirilebilir.
 
 Website: https://feyz.ga/
