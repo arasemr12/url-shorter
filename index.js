@@ -58,10 +58,15 @@ app.get("/contact", (req, res) => {
 });
 
 app.post("/contact", (req, res) => {
+  let ip =
+    req.headers["cf-connecting-ip"] ||
+    req.headers["x-forwarded-for"] ||
+    req.connection.remoteAddress;
+  
   const {email,message} = req.body;
   let embed = new Discord.MessageEmbed()
     .setTitle('Yeni bir iletişim desteği!')
-    .setAuthor(req.ip)
+    .setAuthor(ip)
     .setDescription('Yeni bir iletişim desteği geldi!')
 	  .setColor('RANDOM')
     .addFields(
