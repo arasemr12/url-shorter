@@ -2,7 +2,7 @@
   <% if(locals.message) { %>
     <span style="color:red"><%=message%></span><br><br>
   <% } %>
-  <input type="url" name="url" class="form-control" placeholder="Url." autocomplete="off" required><br><br>
+  <input maxlength="64" type="url" name="url" class="form-control" placeholder="Url." autocomplete="off" required><br><br>
   <input type="text" name="id" class="form-control" placeholder="Id." autocomplete="off" required><br><br>
   <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i> Submit.</button>
 </form>
