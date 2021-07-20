@@ -57,6 +57,10 @@ app.get("/contact", (req, res) => {
   res.render("contact", { title: "FEYZ - Contact", req });
 });
 
+app.get("/discord", (req, res) => {
+  res.redirect('https://discord.gg/jryczwkVsN');
+});
+
 app.post("/contact", (req, res) => {
   let ip =
     req.headers["cf-connecting-ip"] ||
