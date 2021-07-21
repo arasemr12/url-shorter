@@ -91,6 +91,9 @@ app.post("/contact", (req, res) => {
 });
 
 app.get("/:id", (req, res) => {
+  const db = new JsonDatabase({
+    databasePath: "./databases/database.json"
+  });
   const { id } = req.params;
   if (id) {
     if (db.has(id)) {
