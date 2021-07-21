@@ -19,7 +19,9 @@ const db = new JsonDatabase({
 client.on("ready", () => {
   server.listen(3000);
   console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity(`0 Kişi!`, { type: "WATCHING" });
+  client.user.setActivity(`!help - 0 kişiyi`, { type: "WATCHING" });
+  client.user.setStatus("idle");
+  require('./bot/bot')(client)
 });
 
 app.use(express.static("public"));
@@ -38,10 +40,10 @@ let online_user_count = 0;
 
 io.on("connection", socket => {
   online_user_count++;
-  client.user.setActivity(`${online_user_count} kişiyi`, { type: "WATCHING" });
+  client.user.setActivity(`!help - ${online_user_count} kişiyi`, { type: "WATCHING" });
   socket.on("disconnect", () => {
     online_user_count--;
-    client.user.setActivity(`${online_user_count} kişiyi`, { type: "WATCHING" });
+    client.user.setActivity(`!help - ${online_user_count} kişiyi`, { type: "WATCHING" });
   });
 });
 
