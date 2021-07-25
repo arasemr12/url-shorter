@@ -1,7 +1,7 @@
 {
-  "name": "g-y-v",
+  "name": "url-shorter",
   "version": "1.0.0",
-  "description": "g-y-v",
+  "description": "A simple link shortening site.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
