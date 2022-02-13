@@ -1,5 +1,6 @@
 const express = require('express');
 const urlmodel = require('../models/url');
+const Discord = require('discord.js')
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -27,7 +28,9 @@ router.post("/contact", (req, res) => {
     let { email, message } = req.body;
     let embed = new Discord.MessageEmbed()
         .setTitle('Yeni bir iletişim desteği!')
-        .setAuthor(ip)
+        .setAuthor({
+            name: ip
+        })
         .setDescription('Yeni bir iletişim desteği geldi!')
         .setColor('RANDOM')
         .addFields(

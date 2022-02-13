@@ -1,19 +1,18 @@
-<code lang="javascript">
+<div style="margin-bottom: 50px;">
+  <pre><code class="hljs language-javascript">
     //Get id and url. <br>
     const { get } = require('axios').default; <br>
     const yazi = await get('https://feyz.ga/api/:id'); <br>
     if(!yazi || !yazi.data) return console.log("Bir hata oluştu.");<br>
     console.log(yazi.data)
-</code>
-
-<br>
-<hr>
-<br>
-
-<code lang="javascript">
-  //Save id and url. <br>
-  const { post } = require('axios').default; <br>
-  const yazi = await post('https://feyz.ga/api/:id',{url:'https://url.com',id:'id'}); <br>
-  if(!yazi || !yazi.data) return console.log("Bir hata oluştu.");<br>
-  console.log(yazi.data)
-</code>
+  </code></pre>
+</div>
+<div style="margin-bottom: 50px;">
+  <pre><code class="hljs language-javascript">
+    //Save id and url.
+    const { post } = require('axios').default;
+    const yazi = await post('https://feyz.ga/api/new',{url:'https://url.com'});
+    if(!yazi || !yazi.data) return console.log("Bir hata oluştu.");
+    console.log(yazi.data)
+  </code></pre>
+</div>
