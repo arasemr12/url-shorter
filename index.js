@@ -6,23 +6,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const bodyParser = require("body-parser");
-const { JsonDatabase } = require("wio.db");
-const Discord = require("discord.js");
-const client = new Discord.Client();
-require('discord-buttons')(client);
 require('dotenv').config();
-
-const db = new JsonDatabase({
-  databasePath: "./databases/database.json"
-});
-
-client.on("ready", () => {
-  server.listen(3000);
-  console.log(`Logged in as ${client.user.tag}!`);
-  client.user.setActivity(`!help - 0 kişiyi`, { type: "WATCHING" });
-  client.user.setStatus("idle");
-  require('./bot/bot')(client)
-});
 
 app.use(express.static("public"));
 
@@ -32,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(expresslayouts);
-app.set("layout", "./layouts/main");
+app.set("layout", "layouts/main");
 
 app.set("view engine", "ejs");
 
@@ -47,143 +31,26 @@ io.on("connection", socket => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.render("index", { title: "FEYZ - Home", req });
-});
+app.use((req,res,next) => {
+  let ip = req.headers["cf-connecting-ip"] || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  res.locals.ip = ip;
+  next();
+})
 
-app.get("/api", (req, res) => {
-  res.render("api", { title: "FEYZ - Api", req });
-});
+const GeneralRouter = require('./routes/GeneralRouter');
+const ApiRouter = require('./routes/ApiRouter');
 
-app.get("/contact", (req, res) => {
-  res.render("contact", { title: "FEYZ - Contact", req });
-});
-
-app.get("/discord", (req, res) => {
-  res.redirect('https://discord.gg/jryczwkVsN');
-});
-
-app.post("/contact", (req, res) => {
-  let ip =
-    req.headers["cf-connecting-ip"] ||
-    req.headers["x-forwarded-for"] ||
-    req.connection.remoteAddress;
-  
-  const {email,message} = req.body;
-  let embed = new Discord.MessageEmbed()
-    .setTitle('Yeni bir iletişim desteği!')
-    .setAuthor(ip)
-    .setDescription('Yeni bir iletişim desteği geldi!')
-	  .setColor('RANDOM')
-    .addFields(
-      {name: 'E-Mail', value:email},
-      {name: 'Message', value: message}
-    )
-    const disbut = require("discord-buttons");
-
-    let button = new disbut.MessageButton()
-      .setStyle('url')
-      .setURL('https://feyz.ga/') 
-      .setLabel('Websiteye git!'); 
-    
-  client.channels.cache.get(process.env.LOG_CHANNEL_ID).send(embed,button);
-  res.render("contact", { title: "FEYZ - Contact", req });
-});
-
-app.get("/:id", (req, res) => {
-  const db = new JsonDatabase({
-    databasePath: "./databases/database.json"
-  });
-  const { id } = req.params;
-  if (id) {
-    if (db.has(id)) {
-      res.render("url", { title: `FEYZ - ${id}`, veri: db.get(id), req });
-    } else {
-      res
-        .status(404)
-        .render("error", {
-          title: `FEYZ - ${id}`,
-          message: "Not found page.",
-          code: 404,
-          req
-        });
-    }
-  } else {
-    res.redirect("/");
-  }
-});
-
-app.post("/", (req, res) => {
-  let ip =
-    req.headers["cf-connecting-ip"] ||
-    req.headers["x-forwarded-for"] ||
-    req.connection.remoteAddress;
-  const { url, id } = req.body;
-  if (url && id) {
-    if (db.has(id)) {
-      res.render("index", {
-        title: "FEYZ - Home",
-        message: "This id is already taken!",
-        req
-      });
-    } else {
-      db.set(`${id}`, {
-        url: url,
-        id: id,
-        ip: ip
-      });
-      res.redirect(`/${id}`);
-    }
-  } else {
-    res.redirect("/");
-  }
-});
-
-app.post("/api/new", (req, res) => {
-  let ip =
-    req.headers["cf-connecting-ip"] ||
-    req.headers["x-forwarded-for"] ||
-    req.connection.remoteAddress;
-  const { url, id } = req.body;
-  if (url && id) {
-    if (db.has(id)) {
-      res.json({ message: "This id is already taken!" });
-    } else {
-      db.set(`${id}`, {
-        url: url,
-        id: id,
-        ip: ip
-      });
-      res.json({ message: `Saved! url: ${url} id: ${id}` });
-    }
-  } else {
-    res.json({ message: "Require url and id" });
-  }
-});
-
-app.get("/api/:id", (req, res) => {
-  const { id } = req.params;
-  if (id) {
-    if (db.has(id)) {
-      const veri = db.get(id);
-      res.json({ url: veri.url, id: veri.id });
-    } else {
-      res.json({ message: "Undefined" });
-    }
-  } else {
-    res.json({ message: "Require id" });
-  }
-});
+app.use('/',GeneralRouter);
+app.use('/api/',ApiRouter);
 
 app.get("*", (req, res) => {
-  res
-    .status(404)
-    .render("error", {
-      title: `FEYZ - ${req.originalUrl}`,
-      message: "Not found page.",
-      code: 404,
-      req
-    });
+  res.status(404).render("error", {title: `FEYZ - ${req.originalUrl}`,message: "Not found page.",code: 404,req});
 });
 
-client.login(process.env.TOKEN);
+require('./util/db').then(() => {
+  console.log('Database connected!');
+  const PORT = process.env.PORT || 3000;
+  require('./bot/bot').then(() => {
+    server.listen(PORT,() => console.log(`App listening on port ${PORT}`));
+  });  
+})
